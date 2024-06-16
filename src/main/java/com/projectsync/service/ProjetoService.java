@@ -35,7 +35,7 @@ public class ProjetoService {
         return convertToDTO(projetoRepository.save(projeto));
     }
 
-    public ProjetoDTO updateProjeto(Long id, ProjetoDTO projetoDTO) {
+    public Projeto updateProjeto(Long id, ProjetoDTO projetoDTO) {
         Projeto projeto = projetoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Projeto não encontrado"));
 
@@ -43,14 +43,15 @@ public class ProjetoService {
         projeto.setDescricao(projetoDTO.getDescricao());
         projeto.setStatus(projetoDTO.getStatus());
 
-        return convertToDTO(projetoRepository.save(projeto));
+        return projetoRepository.save(projeto);
     }
 
-    public void deleteProjeto(Long id) {
+    public boolean deleteProjeto(Long id) {
         Projeto projeto = projetoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Projeto não encontrado"));
 
         projetoRepository.delete(projeto);
+        return true;
     }
 
     private ProjetoDTO convertToDTO(Projeto projeto) {

@@ -2,6 +2,7 @@ package com.projectsync.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
@@ -9,7 +10,7 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 
 @Configuration
-public class OpenApiConfig {
+public class OpenApiConfig implements WebMvcConfigurer {
 
     @Bean
     public OpenAPI customOpenAPI() {
@@ -24,7 +25,6 @@ public class OpenApiConfig {
                                 .url("http://www.microsoft.com")
                                 .email("erick.scolar@outlook.com"))
                         .license(new License()
-                                .name("Apache 2.0")
                                 .url("http://springdoc.org")));
     }
 }

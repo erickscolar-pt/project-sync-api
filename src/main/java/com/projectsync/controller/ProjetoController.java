@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.projectsync.dto.ProjetoDTO;
+import com.projectsync.entity.Projeto;
 import com.projectsync.service.ProjetoService;
 
 @RestController
@@ -41,7 +42,7 @@ public class ProjetoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProjetoDTO> updateProjeto(@PathVariable Long id, @RequestBody ProjetoDTO projetoDTO) {
+    public ResponseEntity<Projeto> updateProjeto(@PathVariable Long id, @RequestBody ProjetoDTO projetoDTO) {
         return ResponseEntity.ok(projetoService.updateProjeto(id, projetoDTO));
     }
 
