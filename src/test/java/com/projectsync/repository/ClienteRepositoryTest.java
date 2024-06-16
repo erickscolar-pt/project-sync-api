@@ -27,7 +27,9 @@ public class ClienteRepositoryTest {
     public void testSaveCliente() {
         // Dado de exemplo
         Cliente cliente = new Cliente(null, "Novo Cliente", "cliente@example.com", null, null);
+        Projeto projeto = createProjeto(cliente);
 
+        cliente.setProjetos((List<Projeto>) projeto);
         // Salvar o cliente
         Cliente savedCliente = clienteRepository.save(cliente);
 
@@ -41,6 +43,9 @@ public class ClienteRepositoryTest {
     public void testFindById() {
         // Dado de exemplo
         Cliente cliente = new Cliente(null, "Novo Cliente", "cliente@example.com", null, null);
+        Projeto projeto = createProjeto(cliente);
+
+        cliente.setProjetos((List<Projeto>) projeto);
         Cliente savedCliente = clienteRepository.save(cliente);
 
         // Buscar o cliente pelo ID
@@ -58,6 +63,9 @@ public class ClienteRepositoryTest {
     public void testUpdateCliente() {
         // Dado de exemplo
         Cliente cliente = new Cliente(null, "Novo Cliente", "cliente@example.com", null, null);
+        Projeto projeto = createProjeto(cliente);
+
+        cliente.setProjetos((List<Projeto>) projeto);
         Cliente savedCliente = clienteRepository.save(cliente);
 
         // Modificar o cliente
