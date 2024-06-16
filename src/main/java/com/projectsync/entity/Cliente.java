@@ -5,18 +5,18 @@ import lombok.*;
 
 import java.util.List;
 
-import com.projectsync.dto.ProjetoDTO;
 
 @Data
 @Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "clientes")
+@Table(name = "clientes",schema = "projectsync")
 public class Cliente {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cliente_seq")
+    @SequenceGenerator(name = "cliente_seq", sequenceName = "clientes_id_seq", allocationSize = 1)
     private Long id;
 
     @Column(nullable = false)

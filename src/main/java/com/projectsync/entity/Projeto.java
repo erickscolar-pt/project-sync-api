@@ -10,11 +10,12 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "projetos")
+@Table(name = "projetos", schema = "projectsync")
 public class Projeto {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "projeto_seq")
+    @SequenceGenerator(name = "projeto_seq", sequenceName = "projetos_id_seq", allocationSize = 1)
     private Long id;
 
     @Column(nullable = false)

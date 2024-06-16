@@ -10,11 +10,12 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "atividades")
+@Table(name = "atividades", schema = "projectsync")
 public class Atividade {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "atividade_seq")
+    @SequenceGenerator(name = "atividade_seq", sequenceName = "atividades_id_seq", allocationSize = 1)
     private Long id;
 
     @Column(nullable = false)
