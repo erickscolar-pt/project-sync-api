@@ -15,5 +15,6 @@ public class AtividadeDTO {
     private Long projetoId;
     private LocalDateTime dataInicio;
     private LocalDateTime dataFim;
+    private String status;
 
 }

@@ -1,13 +1,16 @@
+// AtividadeService.java
 package com.projectsync.service;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import com.projectsync.dto.AtividadeDTO;
 import com.projectsync.entity.Atividade;
 import com.projectsync.entity.Projeto;
 import com.projectsync.repository.AtividadeRepository;
 import com.projectsync.repository.ProjetoRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -31,51 +34,34 @@ public class AtividadeService {
 
     public AtividadeDTO createAtividade(AtividadeDTO atividadeDTO) {
         Atividade atividade = convertToEntity(atividadeDTO);
-        return convertToDTO(atividadeRepository.save(atividade));
+        atividade = atividadeRepository.save(atividade);
+        return convertToDTO(atividade);
     }
 
     public AtividadeDTO updateAtividade(Long id, AtividadeDTO atividadeDTO) {
-        Atividade atividade = atividadeRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Atividade não encontrada"));
+        Atividade atividade = convertToEntity(atividadeDTO);
 
-        atividade.setNome(atividadeDTO.getNome());
+        atividade.setId(id);
         atividade.setDescricao(atividadeDTO.getDescricao());
-        atividade.setDataInicio(atividadeDTO.getDataInicio());
-        atividade.setDataFim(atividadeDTO.getDataFim());
-
-        return convertToDTO(atividadeRepository.save(atividade));
+        atividade.setNome(atividadeDTO.getNome());
+        atividade.getProjeto().setStatus(atividadeDTO.getStatus());
+        atividade.setDataFim(LocalDateTime.now());
+        atividade = atividadeRepository.save(atividade);
+        return convertToDTO(atividade);
     }
 
     public void deleteAtividade(Long id) {
-        Atividade atividade = atividadeRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Atividade não encontrada"));
-
-        atividadeRepository.delete(atividade);
+        atividadeRepository.deleteById(id);
     }
 
     private AtividadeDTO convertToDTO(Atividade atividade) {
-        AtividadeDTO dto = new AtividadeDTO();
-        dto.setId(atividade.getId());
-        dto.setNome(atividade.getNome());
-        dto.setDescricao(atividade.getDescricao());
-        dto.setProjetoId(atividade.getProjeto().getId());
-        dto.setDataInicio(atividade.getDataInicio());
-        dto.setDataFim(atividade.getDataFim());
-        return dto;
+
+        return new AtividadeDTO(atividade.getId(), atividade.getNome(), atividade.getDescricao(), atividade.getProjeto().getId(), atividade.getDataInicio(), atividade.getDataFim(),atividade.getProjeto().getStatus());
     }
 
-    private Atividade convertToEntity(AtividadeDTO dto) {
-        Atividade atividade = new Atividade();
-        atividade.setId(dto.getId());
-        atividade.setNome(dto.getNome());
-        atividade.setDescricao(dto.getDescricao());
-        atividade.setDataInicio(dto.getDataInicio());
-        atividade.setDataFim(dto.getDataFim());
+    private Atividade convertToEntity(AtividadeDTO atividadeDTO) {
+        Projeto projeto = projetoRepository.findById(atividadeDTO.getProjetoId()).orElseThrow(() -> new IllegalArgumentException("Projeto não encontrado"));
 
-        Projeto projeto = projetoRepository.findById(dto.getProjetoId())
-                .orElseThrow(() -> new RuntimeException("Projeto não encontrado"));
-        atividade.setProjeto(projeto);
-
-        return atividade;
+        return new Atividade(atividadeDTO.getId(), atividadeDTO.getNome(), atividadeDTO.getDescricao(), projeto, atividadeDTO.getDataInicio(), atividadeDTO.getDataFim());
     }
 }
