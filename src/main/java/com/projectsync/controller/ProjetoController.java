@@ -51,4 +51,13 @@ public class ProjetoController {
         projetoService.deleteProjeto(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("/{id}/status")
+    public ResponseEntity<ProjetoDTO> updateProjetoStatus(@PathVariable Long id, @RequestBody ProjetoDTO novoStatus) {
+        return projetoService.updateProjetoStatus(id, novoStatus)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+    
+
 }

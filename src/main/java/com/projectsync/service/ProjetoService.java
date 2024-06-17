@@ -1,6 +1,5 @@
 package com.projectsync.service;
 
-
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -56,6 +55,16 @@ public class ProjetoService {
         projetoRepository.delete(projeto);
         return true;
     }
+
+    public Optional<ProjetoDTO> updateProjetoStatus(Long id, ProjetoDTO projetoDTO) {
+        return projetoRepository.findById(id)
+                .map(projeto -> {
+                    projeto.setStatus(projetoDTO.getStatus());
+                    projetoRepository.save(projeto);
+                    return convertToDTO(projeto); // Converte o projeto atualizado para DTO
+                });
+    }
+    
 
     private ProjetoDTO convertToDTO(Projeto projeto) {
         ProjetoDTO dto = new ProjetoDTO();
