@@ -44,7 +44,7 @@ public class AtividadeService {
         atividade.setId(id);
         atividade.setDescricao(atividadeDTO.getDescricao());
         atividade.setNome(atividadeDTO.getNome());
-        atividade.getProjeto().setStatus(atividadeDTO.getStatus());
+        atividade.setStatus(atividadeDTO.getStatus());
         atividade.setDataFim(LocalDateTime.now());
         atividade = atividadeRepository.save(atividade);
         return convertToDTO(atividade);
@@ -54,14 +54,20 @@ public class AtividadeService {
         atividadeRepository.deleteById(id);
     }
 
-    private AtividadeDTO convertToDTO(Atividade atividade) {
+    public AtividadeDTO convertToDTO(Atividade atividade) {
 
-        return new AtividadeDTO(atividade.getId(), atividade.getNome(), atividade.getDescricao(), atividade.getProjeto().getId(), atividade.getDataInicio(), atividade.getDataFim(),atividade.getProjeto().getStatus());
+        return new AtividadeDTO(atividade.getId(), atividade.getNome(), atividade.getDescricao(), atividade.getProjeto().getId(), atividade.getDataInicio(), atividade.getDataFim(),atividade.getStatus(),atividade.getProjeto().getCliente().getNome());
     }
 
-    private Atividade convertToEntity(AtividadeDTO atividadeDTO) {
+    public Atividade convertToEntity(AtividadeDTO atividadeDTO) {
         Projeto projeto = projetoRepository.findById(atividadeDTO.getProjetoId()).orElseThrow(() -> new IllegalArgumentException("Projeto não encontrado"));
 
-        return new Atividade(atividadeDTO.getId(), atividadeDTO.getNome(), atividadeDTO.getDescricao(), projeto, atividadeDTO.getDataInicio(), atividadeDTO.getDataFim());
+        return new Atividade(atividadeDTO.getId(), atividadeDTO.getNome(), atividadeDTO.getDescricao(), projeto, atividadeDTO.getDataInicio(), atividadeDTO.getDataFim(), atividadeDTO.getStatus());
+    }
+
+    public List<AtividadeDTO> convertToDTOList(List<Atividade> atividades) {
+        return atividades.stream()
+            .map(this::convertToDTO)
+            .collect(Collectors.toList());
     }
 }

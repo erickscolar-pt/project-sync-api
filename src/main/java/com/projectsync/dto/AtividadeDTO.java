@@ -16,5 +16,6 @@ public class AtividadeDTO {
     private LocalDateTime dataInicio;
     private LocalDateTime dataFim;
     private String status;
+    private String clienteNome;
 
 }

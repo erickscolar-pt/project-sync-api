@@ -34,5 +34,4 @@ public class Projeto {
     @OneToMany(mappedBy = "projeto", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Atividade> atividades;
 
-    // Getters and Setters
 }

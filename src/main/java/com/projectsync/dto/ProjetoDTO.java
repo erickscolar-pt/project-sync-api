@@ -1,6 +1,9 @@
 package com.projectsync.dto;
 
 import java.util.List;
+
+import com.projectsync.entity.Atividade;
+
 import lombok.*;
 
 @Data
@@ -13,6 +16,7 @@ public class ProjetoDTO {
     private String descricao;
     private Long clienteId;
     private String status;
+    private String clienteNome;
     private List<AtividadeDTO> atividades;
 
 }

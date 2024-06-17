@@ -22,6 +22,9 @@ public class ProjetoService {
     @Autowired
     private ClienteRepository clienteRepository;
 
+    @Autowired
+    private AtividadeService atividadeService;
+
     public List<ProjetoDTO> getAllProjetos() {
         return projetoRepository.findAll().stream().map(this::convertToDTO).collect(Collectors.toList());
     }
@@ -61,6 +64,8 @@ public class ProjetoService {
         dto.setDescricao(projeto.getDescricao());
         dto.setClienteId(projeto.getCliente().getId());
         dto.setStatus(projeto.getStatus());
+        dto.setClienteNome(projeto.getCliente().getNome());
+        dto.setAtividades(atividadeService.convertToDTOList(projeto.getAtividades()));
         return dto;
     }
 

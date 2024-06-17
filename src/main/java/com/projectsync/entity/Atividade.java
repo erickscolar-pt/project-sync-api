@@ -33,4 +33,7 @@ public class Atividade {
 
     @Column(nullable = false)
     private LocalDateTime dataFim;
+
+    @Column(nullable = false)
+    private String status;
 }
